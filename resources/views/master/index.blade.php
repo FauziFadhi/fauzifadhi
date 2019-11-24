@@ -28,7 +28,7 @@
           <tr>
             <th style="width: 10%">No</th>
             <th>Name</th>
-            <th style="width: 20%">Action</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
