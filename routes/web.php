@@ -11,13 +11,18 @@
 |
 */
 
+Route::resource('categories', 'CategoryController');
+Route::resource('products', 'ProductController');
+Route::resource('periods', 'PeriodController');
+Route::resource('period-transactions', 'PeriodTransactionController');
+
 Route::get('/', function () {
     return view('layout.main');
 });
 
-Route::get('/product-category', function () {
-    return view('master.index');
-});
+// Route::get('/product-category', function () {
+//     return view('master.index');
+// });
 
 Route::get('/period', function () {
     return view('period.index');

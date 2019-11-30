@@ -15,7 +15,7 @@ $path = Request::path()
       </a>
       <ul class="nav nav-treeview">
         <li class="nav-item">
-          <a href="/product-category" class="nav-link {{$path == 'product-category'? 'active': ''}}">
+          <a href="{{ route('categories.index') }}" class="nav-link {{$path == 'product-category'? 'active': ''}}">
             <i class="fa fa-circle-o nav-icon"></i>
             <p>Product & Category</p>
           </a>
@@ -29,7 +29,7 @@ $path = Request::path()
       </ul>
     </li>
     <li class="nav-item">
-      <a href="/period" class="nav-link {{$path == 'period'? 'active': ''}}">
+      <a href="{{route('periods.index')}}" class=" nav-link {{$path == 'period'? 'active': ''}}">
         <i class="fa fa-circle-o nav-icon"></i>
         <p>Period</p>
       </a>

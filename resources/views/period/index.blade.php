@@ -18,7 +18,7 @@
   <div class="card card-primary card-outline">
     <div class="card-header row">
       <h5 class="m-0">List Period</h5>
-      <a href="/period/3/stock" class="btn ml-auto mr-5 btn-success">Create</a>
+      <a id="period-create" class="btn ml-auto mr-5 btn-success">Create</a>
     </div>
     <div class="card-body">
       <table id="example1" class="table table-bordered table-striped">
@@ -33,27 +33,19 @@
           </tr>
         </thead>
         <tbody>
+          @foreach ($periods as $index => $period)
+
           <tr>
-            <td>1</td>
-            <td>2 January 2019</td>
-            <td>5 June 2019</td>
-            <td>4,529</td>
-            <td>Rp. 56,452,000</td>
+            <td>{{$index+1}}</td>
+            <td>{{$period->start_date}}</td>
+            <td>{{$period->end_date}}</td>
+            <td>{{$period->total_chicken | 0}}</td>
+            <td>{{$period->total_income | 0}}</td>
             <td>
-              <a class="btn btn-sm btn-success"><i class="fa fa-edit"></i></a>
-              <a class="btn btn-sm btn-danger"><i class="fa fa-remove"></i></a>
+              <a class="btn btn-sm btn-success" href="{{ route('periods.show',$period->id) }}"><i
+                  class="fa fa-edit"></i></a>
             </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>7 June 2019</td>
-            <td>12 October 2019</td>
-            <td>4,783</td>
-            <td>Rp. 59,236,000</td>
-            <td>
-              <a class="btn btn-sm btn-success"><i class="fa fa-edit"></i></a>
-              <a class="btn btn-sm btn-danger"><i class="fa fa-remove"></i></a>
-            </td>
+            @endforeach
           </tr>
         </tbody>
         <tfoot>
@@ -81,6 +73,11 @@
 <!-- FastClick -->
 <script src={{ asset('plugins/fastclick/fastclick.js')}}></script>
 <script>
+  $.ajaxSetup({
+headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+}
+});
   $(function () {
       $("#example1").DataTable();
       // $('#example2').DataTable({
@@ -92,5 +89,27 @@
       //   "autoWidth": false
       // });
     });
+  $('#period-create').click(e => {
+    e.preventDefault()
+    var date = new Date()
+    var start_date = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+    $.ajax({
+      type: 'POST',
+      url: 'periods',
+      data: {
+        start_date
+      },
+      success: data => {
+      alert('new period is created')
+      error: (error, xhr) => {
+        alert(error)
+      }
+location.href = data
+},
+error: function (request, status, error) {
+alert(request.responseText);
+}
+})
+})
 </script>
 @endsection

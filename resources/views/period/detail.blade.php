@@ -64,5 +64,14 @@
       //   "autoWidth": false
       // });
     });
+    $.ajaxSetup({
+  headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+  });
+
+  var url = document.URL.split('/')
+  var period_id = url[url.length-1]
+  $('#period_id').val(period_id)
 </script>
 @endsection
