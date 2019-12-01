@@ -8,31 +8,13 @@
           </th>
         </thead>
         <tbody class="px-lg-5">
+          @foreach ($products as $product)
           <tr>
-            <td>Pembelian Ayam</td>
+            <td>Pembelian {{$product->name}}</td>
             <td></td>
-            <td>Rp 29.450.000</td>
+            <td>{{ $product->transactions->where('period_id',$transactions[0]->period_id)->sum->total_cost }}</td>
           </tr>
-          <tr>
-            <td>Pembelian Pakan A10</td>
-            <td></td>
-            <td>Rp 2.450.000</td>
-          </tr>
-          <tr>
-            <td>Pembelian Pakan A15</td>
-            <td></td>
-            <td>Rp 5.450.000</td>
-          </tr>
-          <tr>
-            <td>Pembelian Sekam</td>
-            <td></td>
-            <td>Rp 950.000</td>
-          </tr>
-          <tr>
-            <td>Kayu Bakar</td>
-            <td></td>
-            <td>Rp 1.050.000</td>
-          </tr>
+          @endforeach
           <tr>
             <td>Biaya Tak Terduga</td>
             <td><input class="form-control" placeholder="Rp" oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
@@ -45,11 +27,6 @@
                 oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
             </td>
             <td>Rp 1.050.000</td>
-          </tr>
-          <tr>
-            <td>Bensin</td>
-            <td></td>
-            <td>550.000</td>
           </tr>
         </tbody>
         <thead>

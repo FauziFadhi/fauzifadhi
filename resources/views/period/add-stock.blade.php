@@ -11,15 +11,15 @@
         </select>
       </div>
       <div class="form-group mt-2">
-        <label for="Product">Quantity (Kg)</label>
+        <label for="Product">Quantity</label>
         <input type="text" name="qty" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '');"
           placeholder="Qty">
         <input type="hidden" name="period_id" class="form-control" id="period_id">
       </div>
       <div class="form-group mt-2">
-        <label for="Product">Cost (/Kg)</label>
-        <input type="text" name="cost" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '');"
-          placeholder="Cost/Kg">
+        <label for="Product">Total Cost</label>
+        <input type="text" name="total_cost" class="form-control"
+          oninput="this.value = this.value.replace(/[^0-9.]/g, '');" placeholder="Cost/Kg">
       </div>
       <div class="form-group mt-2">
         <button type="submit" class="btn btn-primary" id="transaction-submit">Add</button>
@@ -34,7 +34,6 @@
         <th>Input Date</th>
         <th>Name</th>
         <th>Qty</th>
-        <th>Cost /Kg</th>
         <th>Total</th>
         <th style="width: 20%">Action</th>
       </tr>
@@ -48,8 +47,7 @@
         <td>{{$trans->input_date}}</td>
         <td>{{$trans->product->name}}</td>
         <td>{{$trans->qty}}</td>
-        <td>{{$trans->cost}}</td>
-        <td>{{$trans->cost * $trans->qty}}</td>
+        <td>{{$trans->total_cost}}</td>
         <td>
           <a class="btn btn-sm btn-danger"><i class="fa fa-remove"></i></a>
         </td>

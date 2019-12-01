@@ -11,7 +11,7 @@ class PeriodTransaction extends Model
      *
      * @var array
      */
-    protected $fillable = ['period_id', 'product_id', 'qty', 'cost', 'input_date'];
+    protected $fillable = ['period_id', 'product_id', 'qty', 'total_cost', 'input_date'];
 
     public function product()
     {

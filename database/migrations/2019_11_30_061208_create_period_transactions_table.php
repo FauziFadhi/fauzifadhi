@@ -17,7 +17,7 @@ class CreatePeriodTransactionsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedInteger('product_id');
             $table->unsignedInteger('period_id');
-            $table->double('cost');
+            $table->double('total_cost');
             $table->date('input_date');
             $table->integer('qty');
             $table->timestamps();
