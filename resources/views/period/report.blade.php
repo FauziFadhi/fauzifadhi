@@ -12,21 +12,29 @@
           <tr>
             <td>Pembelian {{$product->name}}</td>
             <td></td>
-            <td>{{ $product->transactions->where('period_id',$transactions[0]->period_id)->sum->total_cost }}</td>
+            <td>
+              @php
+              if($transactions->count() === 0)
+              echo '0';
+              else
+              echo $product->transactions->where('period_id',$transactions[0]->period_id)->sum->total_cost;
+              @endphp
+            </td>
           </tr>
           @endforeach
           <tr>
             <td>Biaya Tak Terduga</td>
-            <td><input class="form-control" placeholder="Rp" oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
+            <td><input class="form-control" id="inp-biaya-tak-terduga" placeholder="Rp"
+                oninput="this.value = this.value.replace(/[^0-9.]/g, ''); takTerduga(this);">
             </td>
-            <td>Rp 1.050.000</td>
+            <td id="biaya-tak-terduga"></td>
           </tr>
           <tr>
             <td>Gaji Anak Kandang</td>
             <td><input class="form-control" placeholder="Rp / Ayam"
-                oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
+                oninput="this.value = this.value.replace(/[^0-9.]/g, ''); gaji(this);">
             </td>
-            <td>Rp 1.050.000</td>
+            <td id="gaji-anak-kandang"></td>
           </tr>
         </tbody>
         <thead>
@@ -37,11 +45,20 @@
         <tbody class="px-lg-5">
           <tr>
             <td>Harvest Chicken</td>
-            <td></td>
-            <td>80.000.000</td>
+            <td><input class="form-control" placeholder="Rp / Ayam"
+                oninput="this.value = this.value.replace(/[^0-9.]/g, ''); panen(this);"></td>
+            <td id="panen"></td>
           </tr>
         </tbody>
       </table>
+      <div class="col-md-12">
+        <div class="row">
+          <button id="hitung">Hitung</button>
+          <span class="ml-auto text-danger" id="total">
+
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 </div>

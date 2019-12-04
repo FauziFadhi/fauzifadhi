@@ -45,6 +45,14 @@
 
 
 @section('js')
+@php
+$banyakAyam = $products->where('name','Ayam')->first()->stock;
+$totalBelanja = 0;
+if($transactions->count() === 0)
+$totalBelanja = 0;
+else
+$totalBelanja = $transactions->sum->total_cost;
+@endphp
 <!-- DataTables -->
 <script src={{ asset('plugins/datatables/jquery.dataTables.js')}}></script>
 <script src={{ asset('plugins/datatables/dataTables.bootstrap4.js')}}></script>
@@ -73,5 +81,46 @@
   var url = document.URL.split('/')
   var period_id = url[url.length-1]
   $('#period_id').val(period_id)
+  let allTotal = 0;
+
+  totalBiaya = 0;
+  takTerduga = (e) => {
+  totalBiaya = 0;
+    var biaya = $('#biaya-tak-terduga')
+    biaya.find("span").remove()
+    biaya.append(`<span>${e.value}</span>`)
+  totalBiaya = e.value;
+  }
+
+    var banyakAyam = "<?php echo $banyakAyam; ?>"
+    var totalBelanja = "<?php echo $totalBelanja; ?>"
+    totalGaji = 0;
+  gaji = (e) => {
+    totalGaji = 0;
+    var gaji = $('#gaji-anak-kandang')
+    gaji.find("span").remove()
+    if(!banyakAyam)
+      banyakAyam = 0
+    total = e.value*banyakAyam 
+    gaji.append(`<span>${total}</span>`)
+    totalGaji = total;
+  }
+
+  totalPanen = 0
+  panen = (e) => {
+    totalPanen = 0;
+    var panen = $('#panen')
+    panen.find("span").remove()
+    if(!banyakAyam)
+      banyakAyam = 0
+    total = e.value*banyakAyam 
+    panen.append(`<span>${total}</span>`)
+    totalPanen = total
+  }
+  $('#hitung').click(e => {
+    totalSemua = parseInt(totalPanen)-parseInt(totalBiaya)-parseInt(totalGaji)-parseInt(totalBelanja)
+    $('#total').find("h3").remove()
+    $('#total').append(`<h3>Total: ${totalSemua}</h3>`)
+  })
 </script>
 @endsection

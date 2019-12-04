@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\PeriodTransaction;
-use App\Product;
+use App\Schedule;
 use Illuminate\Http\Request;
 
-class PeriodTransactionController extends Controller
+class ScheduleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -36,30 +35,27 @@ class PeriodTransactionController extends Controller
      */
     public function store(Request $request)
     {
-        $request['input_date'] = date('Y-m-d');
-        $transaction = PeriodTransaction::create($request->all());
-        $product = Product::where('id', $transaction->product_id)->increment('stock', $transaction->qty);
-        return redirect()->route('periods.show', $transaction->period->id);
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\PeriodTransaction  $periodTransaction
+     * @param  \App\Schedule  $schedule
      * @return \Illuminate\Http\Response
      */
-    public function show(PeriodTransaction $periodTransaction)
+    public function show(Schedule $schedule)
     {
-        
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\PeriodTransaction  $periodTransaction
+     * @param  \App\Schedule  $schedule
      * @return \Illuminate\Http\Response
      */
-    public function edit(PeriodTransaction $periodTransaction)
+    public function edit(Schedule $schedule)
     {
         //
     }
@@ -68,10 +64,10 @@ class PeriodTransactionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\PeriodTransaction  $periodTransaction
+     * @param  \App\Schedule  $schedule
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PeriodTransaction $periodTransaction)
+    public function update(Request $request, Schedule $schedule)
     {
         //
     }
@@ -79,10 +75,10 @@ class PeriodTransactionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\PeriodTransaction  $periodTransaction
+     * @param  \App\Schedule  $schedule
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PeriodTransaction $periodTransaction)
+    public function destroy(Schedule $schedule)
     {
         //
     }
