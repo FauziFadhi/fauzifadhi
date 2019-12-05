@@ -46,7 +46,10 @@
 
 @section('js')
 @php
-$banyakAyam = $products->where('name','Ayam')->first()->stock;
+$ayam = $products->where('name','Ayam')->first();
+$banyakAyam = 0;
+if($ayam)
+$banyakAyam = $ayam->stock;
 $totalBelanja = 0;
 if($transactions->count() === 0)
 $totalBelanja = 0;
