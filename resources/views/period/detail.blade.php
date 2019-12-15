@@ -26,6 +26,10 @@
             aria-selected="true">Add Stock</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#schedule" role="tab" aria-controls="schedule"
+            aria-selected="false">Schedule Rule</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" id="profile-tab" data-toggle="tab" href="#report" role="tab" aria-controls="report"
             aria-selected="false">Report</a>
         </li>
@@ -33,6 +37,9 @@
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="stock" role="tabpanel" aria-labelledby="home-tab">
           @include('period.add-stock')
+        </div>
+        <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="home-tab">
+          @include('period.schedule')
         </div>
         <div class="tab-pane fade" id="report" role="tabpanel" aria-labelledby="profile-tab">
           @include('period.report')
@@ -55,6 +62,7 @@ if($transactions->count() === 0)
 $totalBelanja = 0;
 else
 $totalBelanja = $transactions->sum->total_cost;
+
 @endphp
 <!-- DataTables -->
 <script src={{ asset('plugins/datatables/jquery.dataTables.js')}}></script>
@@ -66,6 +74,8 @@ $totalBelanja = $transactions->sum->total_cost;
 <script>
   $(function () {
       $("#example1").DataTable();
+      $("#example2").DataTable();
+      $("#example3").DataTable();
       // $('#example2').DataTable({
       //   "paging": true,
       //   "lengthChange": false,
@@ -81,9 +91,11 @@ $totalBelanja = $transactions->sum->total_cost;
   }
   });
 
+
+
   var url = document.URL.split('/')
   var period_id = url[url.length-1]
-  $('#period_id').val(period_id)
+  $('.period_id').val(period_id)
   let allTotal = 0;
 
   totalBiaya = 0;
@@ -121,9 +133,12 @@ $totalBelanja = $transactions->sum->total_cost;
     totalPanen = total
   }
   $('#hitung').click(e => {
+    if(totalPanen || totalBiaya || totalGaji || totalBelanja)
+      return alert('isi data dengan benar')
     totalSemua = parseInt(totalPanen)-parseInt(totalBiaya)-parseInt(totalGaji)-parseInt(totalBelanja)
     $('#total').find("h3").remove()
     $('#total').append(`<h3>Total: ${totalSemua}</h3>`)
   })
+
 </script>
 @endsection

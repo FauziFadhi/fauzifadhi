@@ -60,6 +60,9 @@
   <div class="col-md-8">
     <div class="card card-primary card-outline">
       <div class="card-header">
+        @error('message')
+        <span class="bg-danger">{{$message}}</span>
+        @enderror
         <h5 class="m-0">Product</h5>
       </div>
       <div class="card-body">

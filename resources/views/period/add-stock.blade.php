@@ -11,10 +11,14 @@
         </select>
       </div>
       <div class="form-group mt-2">
+        @error('message')
+        <span class="bg-danger">{{$message}}</span>
+        <br>
+        @enderror
         <label for="Product">Quantity</label>
         <input type="text" name="qty" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '');"
           placeholder="Qty">
-        <input type="hidden" name="period_id" class="form-control" id="period_id">
+        <input type="hidden" name="period_id" class="form-control period_id" id="">
       </div>
       <div class="form-group mt-2">
         <label for="Product">Total Cost</label>
@@ -33,6 +37,7 @@
         <th style="width: 10%">No</th>
         <th>Input Date</th>
         <th>Name</th>
+        <th>Category</th>
         <th>Qty</th>
         <th>Total</th>
         <th style="width: 20%">Action</th>
@@ -46,10 +51,13 @@
         <td>{{$index+1}}</td>
         <td>{{$trans->input_date}}</td>
         <td>{{$trans->product->name}}</td>
+        <td>{{$trans->product->category->name}}</td>
         <td>{{$trans->qty}}</td>
         <td>{{$trans->total_cost}}</td>
         <td>
+          @if($trans->product->name !== 'Ayam')
           <a class="btn btn-sm btn-danger"><i class="fa fa-remove"></i></a>
+          @endif
         </td>
       </tr>
       @endforeach

@@ -29,13 +29,13 @@ $path = Request::path()
       </ul>
     </li>
     <li class="nav-item">
-      <a href="{{route('periods.index')}}" class=" nav-link {{$path == 'period'? 'active': ''}}">
+      <a href="{{route('periods.index')}}" class=" nav-link {{$path == 'periods'? 'active': ''}}">
         <i class="fa fa-circle-o nav-icon"></i>
         <p>Period</p>
       </a>
     </li>
     <li class="nav-item">
-      <a href="/schedule" class="nav-link {{$path == 'schedule'? 'active': ''}}">
+      <a href="{{route('schedules.index')}}" class="nav-link {{$path == 'schedules'? 'active': ''}}">
         <i class="fa fa-circle-o nav-icon"></i>
         <p>Schedule</p>
       </a>

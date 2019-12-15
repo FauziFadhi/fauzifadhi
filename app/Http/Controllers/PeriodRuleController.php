@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\PeriodRule;
+use App\Schedule;
 use App\Product;
+use App\ScheduleDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class ProductController extends Controller
+class PeriodRuleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,13 +39,27 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|unique:products,name'
-        ]);
+        if ($request->age_start >= 36 || $request->age_start >= 36)
+            return redirect()->back()->withErrors(['rule' => 'maksimal 36 hari']);
 
-        $product = Product::create($request->all());
+        if ($request->age_start >= $request->age_end)
+            return redirect()->back()->withErrors(['rule' => 'Tanggal Akhir harus lebih besar dari tanggal awal']);
 
-        return response()->json(['product' => $product->load(['category'])]);
+        $exists = PeriodRule::where('period_id', $request->period_id)->where('age_end', '>=', $request->age_start)->where('type', $request->type)->first();
+        if ($exists)
+            return redirect()->back()->withErrors(['rule' => 'Input Tanggal tidak bisa diterima']);
+        DB::beginTransaction();
+        $rule = PeriodRule::create($request->all());
+        $schedules = Schedule::where('period_id', $request->period_id)->where('age', '>=', $request->age_start)->where('age', '<=', $request->age_end)->get();
+        $schedules->map(function ($schedule) use ($rule) {
+            ScheduleDetail::create([
+                'schedule_id' => $schedule->id,
+                'period_rule_id' => $rule->id
+            ]);
+        });
+        DB::commit();
+        return redirect()->route('periods.show', $rule->period->id);
+        DB::rollback();
     }
 
     /**
@@ -87,9 +105,5 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
-        $product = Product::find($id);
-        if ($product->transactions->count() > 0)
-            return redirect()->back()->withErrors(['message' => 'this item cant deleted, because already used in transactions']);
-        return redirect()->route('categories.index');
     }
 }

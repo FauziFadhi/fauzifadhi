@@ -11,27 +11,14 @@
 |
 */
 
+
 Route::resource('categories', 'CategoryController');
 Route::resource('products', 'ProductController');
 Route::resource('periods', 'PeriodController');
 Route::resource('period-transactions', 'PeriodTransactionController');
+Route::resource('period-rules', 'PeriodRuleController');
+Route::resource('schedules', 'ScheduleController');
 
 Route::get('/', function () {
     return view('layout.main');
-});
-
-// Route::get('/product-category', function () {
-//     return view('master.index');
-// });
-
-Route::get('/period', function () {
-    return view('period.index');
-});
-
-Route::get('/period/3/stock', function () {
-    return view('period.detail');
-});
-
-Route::get('/schedule', function () {
-    return view('schedule.index');
 });

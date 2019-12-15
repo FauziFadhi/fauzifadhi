@@ -63,6 +63,15 @@
 <!-- FastClick -->
 <script src="{{ asset('plugins/fastclick/fastclick.js')}}"></script>
 <script>
+  $.ajaxSetup({
+
+headers: {
+
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+}
+
+});
   $(function () {
       $("#example1").DataTable();
       $("#example2").DataTable();
@@ -72,7 +81,40 @@
         radioClass   : 'iradio_flat-green'
       })
     });
+
+    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').on('ifChecked', function(event){
+      idDetail = $(this).val()
+      type = 'checked'
+      $.ajax(({
+      type: 'PUT',
+      url:`schedules/${idDetail}`,
+      data: {type},
+      success: data => {
+        alert('schedule sudah dikerjakan')
+      },
+      error: error => {
+        return error
+      }
+      
+    }))
+    });
+    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').on('ifUnchecked', function(event){
+      idDetail = $(this).val()
+      type = 'unchecked'
+
+      $.ajax(({
+      type: 'PUT',
+      url:`schedules/${idDetail}`,
+      data: {type},
+      success: data => {
+        alert('schedule menjadi belum dikerjakan')
+      }
+      
+    }))
+    });
+
 </script>
 <!-- iCheck 1.0.1 -->
 <script src="{{asset('plugins/iCheck/icheck.min.js')}}"></script>
+
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Period;
+use App\PeriodRule;
 use App\Product;
 use App\PeriodTransaction;
 use Illuminate\Http\Request;
@@ -39,15 +40,15 @@ class PeriodController extends Controller
      */
     public function store(Request $request)
     {
-        $lastPeriod = Period::where('end_date',null)->count();
+        $lastPeriod = Period::where('end_date', null)->count();
         $product = Product::count();
-        if($product === 0)
+        if ($product === 0)
             return response()->json('please add product first', 400);
-        if($lastPeriod > 0)
+        if ($lastPeriod > 0)
             return response()->json('last period not harvest yet, cant create new period', 400);
         $period = Period::create($request->all());
 
-        return route('periods.show',$period->id);
+        return route('periods.show', $period->id);
     }
 
     /**
@@ -58,10 +59,11 @@ class PeriodController extends Controller
      */
     public function show($id)
     {
-        
-        $transactions = PeriodTransaction::where('period_id',$id)->get();
+
+        $transactions = PeriodTransaction::where('period_id', $id)->get();
+        $rules = PeriodRule::where('period_id', $id)->get();
         $products = Product::all();
-        return view('period.detail', compact('transactions','products'));
+        return view('period.detail', compact('transactions', 'products', 'rules'));
     }
 
     /**

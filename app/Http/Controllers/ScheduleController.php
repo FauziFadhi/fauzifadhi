@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Schedule;
+use App\ScheduleDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ScheduleController extends Controller
 {
@@ -14,7 +16,19 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        //
+        $details = ScheduleDetail::whereHas('schedule', function ($q) {
+            $q->whereHas('period', function ($j) {
+                $j->where('end_date', null);
+            });
+        })->get();
+
+        $feeds = $details->filter(function ($value, $key) {
+            return $value->rule->type === 'pakan';
+        });
+        $drugs = $details->filter(function ($value, $key) {
+            return $value->rule->type === 'obat';
+        });;
+        return view('schedule.index', compact(['feeds', 'drugs']));
     }
 
     /**
@@ -34,9 +48,7 @@ class ScheduleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-    }
+    { }
 
     /**
      * Display the specified resource.
@@ -67,9 +79,33 @@ class ScheduleController extends Controller
      * @param  \App\Schedule  $schedule
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Schedule $schedule)
+    public function update(Request $request, $idDetail)
     {
-        //
+        DB::beginTransaction();
+        if ($request->type === 'checked') {
+
+            $scheduleDetail = ScheduleDetail::find($idDetail);
+            $scheduleDetail->update([
+                "status" => '1'
+            ]);
+            // return response()->json([
+            //     'test' => $scheduleDetail
+            // ]);
+            $periodRule = $scheduleDetail->rule;
+            $periodRule->product()->decrement('stock', $periodRule->qty);
+        }
+        if ($request->type === 'unchecked') {
+
+            $scheduleDetail = ScheduleDetail::find($idDetail);
+            $scheduleDetail->update([
+                "status" => '0'
+            ]);
+            $periodRule = $scheduleDetail->rule;
+            $periodRule->product()->increment('stock', $periodRule->qty);
+        }
+        DB::commit();
+
+        DB::rollback();
     }
 
     /**

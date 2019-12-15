@@ -12,33 +12,23 @@
     </tr>
   </thead>
   <tbody>
+    @php $i=0; $alpha = range('A', 'Z'); @endphp
+    @foreach ($drugs as $drug)
+
     <tr>
-      <td class="py-1">1</td>
-      <td class="py-1">2 January 2019</td>
-      <td class="py-1">A</td>
-      <td class="py-1">5000</td>
-      <td class="py-1">1 Day</td>
-      <td class="py-1">A10</td>
-      <td class="py-1">1 Sack</td>
+      <td class="py-1">{{ $i+1 }}</td>
+      <td class="py-1">{{ $drug->schedule->action_date }}</td>
+      <td class="py-1">{{ $alpha[$drug->schedule->cage_no-1] }}</td>
+      <td class="py-1">{{ $drug->schedule->chicken_qty }}</td>
+      <td class="py-1">{{ $drug->schedule->age }}</td>
+      <td class="py-1">{{ $drug->rule->product->name }}</td>
+      <td class="py-1">{{ $drug->rule->qty }}</td>
       <td class="py-1">
         <label>
-          <input type="checkbox" class="flat-red">
+          <input type="checkbox" class="flat-red schedule-checked">
         </label>
       </td>
     </tr>
-    <tr>
-      <td class="py-1">2</td>
-      <td class="py-1">3 January 2019</td>
-      <td class="py-1">A</td>
-      <td class="py-1">4992</td>
-      <td class="py-1">2 Days</td>
-      <td class="py-1">A10</td>
-      <td class="py-1">1 Sack</td>
-      <td class="py-1">
-        <label>
-          <input type="checkbox" class="flat-red">
-        </label>
-      </td>
-    </tr>
+    @endforeach
   </tbody>
 </table>

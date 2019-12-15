@@ -4,19 +4,20 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Schedule extends Model
+class PeriodRule extends Model
 {
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['cage_no', 'period_id', 'age', 'chicken_qty', 'action_date'];
-    public function detail()
-    {
-        return $this->hasOne('App\ScheduleDetail');
-    }
+    protected $fillable = ['type', 'period_id', 'product_id', 'age_start', 'age_end', 'qty'];
 
+    public function product()
+    {
+        return $this->belongsTo('App\Product');
+    }
     public function period()
     {
         return $this->belongsTo('App\Period');
