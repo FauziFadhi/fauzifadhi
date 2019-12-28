@@ -164,7 +164,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             Notification.requestPermission( permission => {
               let notification = new Notification('New post alert!', {
                 body: 'Reminder Untuk Memberi makan dan obat', // content for the alert,
-                dir: 'sd'
+                // dir: 'sd'
               });
               notification.onclick = () => {
                 

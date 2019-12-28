@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Events\ScheduleReminder;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -25,7 +26,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')
-        //          ->hourly();
+        //     ->hourly();
+        $schedule->call(function () {
+            // event(new ScheduleReminder('halo'));
+            error_log(print_r('test', TRUE));
+        })->everyMinute();
     }
 
     /**
@@ -35,7 +40,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
