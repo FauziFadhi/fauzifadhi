@@ -21,7 +21,7 @@ class PeriodController extends Controller
     public function index()
     {
         $periods = Period::all();
-        $user = User::find(1)->notify(new ScheduleNotification);
+        // $user = User::find(1)->notify(new ScheduleNotification);
         event(new ScheduleReminder("test coyy"));
         return view('period.index', compact('periods'));
     }

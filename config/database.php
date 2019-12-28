@@ -49,7 +49,7 @@ return [
             'host' => 'db4free.net',
             'port' => '3306',
             'database' => 'rose_1234',
-            'username' => 'rose_1234@localhost',
+            'username' => 'rose_1234',
             'password' => 'rose_1234',
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
