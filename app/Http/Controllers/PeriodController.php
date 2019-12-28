@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\ScheduleNotification;
 use App\Period;
 use App\PeriodRule;
 use App\Product;
 use App\PeriodTransaction;
+use App\User;
 use Illuminate\Http\Request;
 
 class PeriodController extends Controller
@@ -18,7 +20,7 @@ class PeriodController extends Controller
     public function index()
     {
         $periods = Period::all();
-
+        $user = User::find(1)->notify(new ScheduleNotification);
         return view('period.index', compact('periods'));
     }
 

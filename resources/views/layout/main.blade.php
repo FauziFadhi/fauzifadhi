@@ -18,6 +18,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
   @yield('css')
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+
+
+
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -64,7 +69,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </div>
       <!-- /.sidebar -->
     </aside>
+    @php
+    $user = \App\User::find(1);
+    @endphp
 
+    <button type="button" class="btn btn-success toastsDefaultSuccess" onclick="notifyMe()">
+      Launch Success Toastasdasdasda dasd asda sdasd asda sd asd asd s
+    </button>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
       <!-- Content Header (Page header) -->
@@ -113,9 +124,48 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
   <!-- Bootstrap 4 -->
   <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
   <!-- AdminLTE App -->
+  <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
   <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 
+
+  <script>
+    $(function() {
+    // const Toast = Swal.mixin({
+    //   toast: true,
+    //   position: 'top-end',
+    //   showConfirmButton: false,
+    //   timer: 3000
+    // });
+  })
+  </script>
+  @foreach ($user->unreadnotifications as $notification)
+  <script>
+    // $(document).Toasts('create', {
+    //     class: 'bg-success', 
+    //     title: 'Toast Title',
+    //     subtitle: 'Subtitle',
+    //     body: "<?php echo $notification->data['data'] ?> asdas dasda sdasd asd a"
+    //   })
+    function notifyMe() {
+  // Let's check if the browser supports notifications
+
+  // Otherwise, we need to ask the user for permission
+  if (Notification.permission !== "denied") {
+    Notification.requestPermission().then(function (permission) {
+      // If the user accepts, let's create a notification
+      if (permission === "granted") {
+        var notification = new Notification("Hi there!");
+      }
+    });
+  }
+
+  // At last, if the user has denied notifications, and you 
+  // want to be respectful there is no need to bother them any more.
+}
+  </script>
+  @endforeach
   @yield('js')
 
 </body>
