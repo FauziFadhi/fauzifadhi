@@ -19,6 +19,6 @@ Route::resource('period-transactions', 'PeriodTransactionController');
 Route::resource('period-rules', 'PeriodRuleController');
 Route::resource('schedules', 'ScheduleController');
 
-Route::get('/', function () {
-    return view('layout.main');
-});
+// Route::get('/', function () {
+//     return view('layout.main');
+// });

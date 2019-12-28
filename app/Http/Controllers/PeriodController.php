@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ScheduleReminder;
 use App\Notifications\ScheduleNotification;
 use App\Period;
 use App\PeriodRule;
@@ -21,6 +22,7 @@ class PeriodController extends Controller
     {
         $periods = Period::all();
         $user = User::find(1)->notify(new ScheduleNotification);
+        event(new ScheduleReminder("test coyy"));
         return view('period.index', compact('periods'));
     }
 

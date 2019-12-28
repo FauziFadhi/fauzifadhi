@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ScheduleReminder;
 use App\Product;
 use Illuminate\Http\Request;
 
@@ -38,6 +39,7 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required|unique:products,name'
         ]);
+        event(new ScheduleReminder("test coyy"));
 
         $product = Product::create($request->all());
 

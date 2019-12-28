@@ -122,6 +122,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- jQuery -->
   <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+  {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
   <!-- Bootstrap 4 -->
   <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
@@ -131,6 +132,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
   <script>
+    window.Laravel = {!! json_encode([
+      'csrfToken' => csrf_token(),
+    ]) !!};
     $(function() {
     // const Toast = Swal.mixin({
     //   toast: true,
@@ -140,32 +144,36 @@ scratch. This page gets rid of all links and provides the needed markup only.
     // });
   })
   </script>
-  @foreach ($user->unreadnotifications as $notification)
+  <script src="https://js.pusher.com/5.0/pusher.min.js"></script>
   <script>
-    // $(document).Toasts('create', {
-    //     class: 'bg-success', 
-    //     title: 'Toast Title',
-    //     subtitle: 'Subtitle',
-    //     body: "<?php echo $notification->data['data'] ?> asdas dasda sdasd asd a"
-    //   })
-    function notifyMe() {
-  // Let's check if the browser supports notifications
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
 
-  // Otherwise, we need to ask the user for permission
-  if (Notification.permission !== "denied") {
-    Notification.requestPermission().then(function (permission) {
-      // If the user accepts, let's create a notification
-      if (permission === "granted") {
-        var notification = new Notification("Hi there!");
-      }
+    var pusher = new Pusher('d07806f61744663e4357', {
+      cluster: 'ap1',
+      forceTLS: true
     });
-  }
 
-  // At last, if the user has denied notifications, and you 
-  // want to be respectful there is no need to bother them any more.
-}
+    var channel = pusher.subscribe('reminder');
+    channel.bind('schedule-reminder', data => {
+      if (! ('Notification' in window)) {
+              alert('Web Notification is not supported');
+              return;
+            }
+
+            Notification.requestPermission( permission => {
+              let notification = new Notification('New post alert!', {
+                body: 'Reminder Untuk Memberi makan dan obat', // content for the alert,
+                dir: 'sd'
+              });
+              notification.onclick = () => {
+                
+              };  
+
+
+            });
+    });
   </script>
-  @endforeach
   @yield('js')
 
 </body>
